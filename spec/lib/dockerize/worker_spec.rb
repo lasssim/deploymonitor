@@ -1,10 +1,10 @@
 require 'spec_helper'
 
 module Dockerize
-  describe Worker, :wip do
+  describe Worker do
 
-    after :all do
-      described_class.clean_up
+    after do
+      subject.clean_up
     end
 
 
@@ -23,7 +23,7 @@ module Dockerize
 
     its(:repository)   { is_expected.to eq repository }
     its(:tmp_dir_base) { is_expected.to eq "/tmp/dockerize" }
-    its(:tmp_dir)      { is_expected.to eq "/tmp/dockerize/lister/stairlightsrb" }
+    its(:tmp_dir)      { is_expected.to eq "/tmp/dockerize/lister/docker-hello-world" }
       
     context "update" do
       context "missing working copy" do

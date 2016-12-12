@@ -4,7 +4,7 @@ module Dockerize
 
     def initialize(repository: , logger: Logger.new(STDOUT))
       @repository = repository
-      @@tmp_dir_base = "/tmp/dockerize"
+      @tmp_dir_base = "/tmp/dockerize"
       @logger = logger
     end
 
@@ -15,22 +15,18 @@ module Dockerize
       end
     end
 
-    def self.clean_up
-      FileUtils.rm_rf(tmp_dir_base)
+    def clean_up
+      FileUtils.rm_rf(tmp_dir)
     end
 
     def tmp_dir
-      File.join(@@tmp_dir_base, repository.name)
+      File.join(tmp_dir_base, repository.name)
     end
 
     private 
 
-    def self.tmp_dir_base
-      @@tmp_dir_base
-    end
-
     def tmp_dir_base
-      self.class.tmp_dir_base
+      @tmp_dir_base 
     end
 
     def git

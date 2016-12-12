@@ -11,8 +11,8 @@ module Dockerize
       described_class.new(repository_hash)
     end
 
-    its(:name)      { is_expected.to eq "lister/stairlightsrb" }
-    its(:clone_url) { is_expected.to eq "https://github.com/lister/stairlightsrb.git" }
+    its(:name)      { is_expected.to eq "lister/docker-hello-world" }
+    its(:clone_url) { is_expected.to eq "spec/fixtures/docker-hello-world.git" }
   end
 
 end
