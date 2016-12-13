@@ -11,7 +11,7 @@ module GithubHooks
   def repository_json
     '{
       "full_name": "lister/docker-hello-world",
-      "clone_url": "spec/fixtures/docker-hello-world.git"
+      "clone_url": "https://github.com/lister/docker-hello-world.git"
     }'
   end
 
