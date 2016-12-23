@@ -15,8 +15,9 @@ module GithubHooks
     }'
   end
 
-  def master_lister
-    '{
+  def master_lister(pusher: "lister", full_name: "lister/docker-hello-world")
+    <<-eos
+    {
       "ref": "refs/heads/master",
       "before": "171b622dd365fbc889917cb17ad2b10de38c72a7",
       "after": "cd696048d6bc4f83317361c50fa87059dfef928f",
@@ -84,7 +85,7 @@ module GithubHooks
       "repository": {
         "id": 58662418,
         "name": "stairlightsrb",
-        "full_name": "lister/stairlightsrb",
+        "full_name": "#{full_name}",
         "owner": {
           "name": "lister",
           "email": "simon@lisuna.org"
@@ -157,7 +158,7 @@ module GithubHooks
         "master_branch": "master"
       },
       "pusher": {
-        "name": "lister",
+        "name": "#{pusher}",
         "email": "simon@lisuna.org"
       },
       "sender": {
@@ -179,7 +180,8 @@ module GithubHooks
         "type": "User",
         "site_admin": false
       }
-    }'
+    }
+    eos
 
 
   end

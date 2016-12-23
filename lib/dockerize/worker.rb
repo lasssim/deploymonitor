@@ -2,9 +2,8 @@ module Dockerize
   class Worker
     attr_reader :repository, :logger
 
-    def initialize(repository: , logger: Logger.new(STDOUT))
+    def initialize(repository: , logger: Dockerize.config.logger)
       @repository = repository
-      @tmp_dir_base = "/tmp/dockerize"
       @logger = logger
     end
 
@@ -23,10 +22,17 @@ module Dockerize
       File.join(tmp_dir_base, repository.name)
     end
 
+    def self.clean_all
+      FileUtils.rm_rf(tmp_dir_base) 
+    end
+
+    def self.tmp_dir_base
+      File.join(Dockerize.config.tmp_dir_base, "dockerize")
+    end
     private 
 
     def tmp_dir_base
-      @tmp_dir_base 
+      self.class.tmp_dir_base 
     end
 
     def git

@@ -1,23 +1,16 @@
 class App < Sinatra::Base
 
-  def request_payload
-    @request_payload ||= begin 
-      request.body.rewind
-      JSON.parse request.body.read
-    end
+  def body
+    request.body.rewind
+    request.body.read
   end
 
+
   get '/*' do
-    "Sinatra App"
   end
 
   post '/*' do
-    ap request_payload
-    state = request_payload["state"]
-    ap state
-    if state == "success"
-      puts `./dockerize.sh`
-    end
+    UseCase::UpdateContainer.new(body).run
   end
 end
 

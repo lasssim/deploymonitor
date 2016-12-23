@@ -13,8 +13,10 @@ gem 'octokit'
 gem 'netrc'
 gem 'git'
 gem 'docker-api'
+gem 'confstruct'
 
 group :test do
   gem 'rspec'
   gem 'rspec-its'
+  gem 'simplecov'
 end

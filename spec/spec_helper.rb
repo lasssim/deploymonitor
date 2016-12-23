@@ -20,7 +20,18 @@ ENV['RACK_ENV'] = 'test'
 require 'rspec/its'
 require_relative 'fixtures/github_hooks'
 
+require 'rack/test'
+
+require 'simplecov'
+SimpleCov.start
+
+module RSpecMixin
+  include Rack::Test::Methods
+  def app() described_class.new end
+end
+
 RSpec.configure do |config|
+  config.include RSpecMixin
   # rspec-expectations config goes here. You can use an alternate
   # assertion/expectation library such as wrong or the stdlib/minitest
   # assertions if you prefer.
@@ -107,3 +118,5 @@ RSpec.configure do |config|
 end
 
 require File.expand_path("../../config/environment.rb", __FILE__)
+
+

@@ -12,7 +12,7 @@ module Dockerize
     end
 
     its(:name)      { is_expected.to eq "lister/docker-hello-world" }
-    its(:clone_url) { is_expected.to eq "spec/fixtures/docker-hello-world.git" }
+    its(:clone_url) { is_expected.to eq "https://github.com/lister/docker-hello-world.git" }
   end
 
 end

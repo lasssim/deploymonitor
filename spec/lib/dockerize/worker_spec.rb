@@ -7,6 +7,11 @@ module Dockerize
       subject.clean_up
     end
 
+    before do
+      allow_any_instance_of(Repository).to receive(:clone_url) {
+        "spec/fixtures/docker-hello-world.git"
+      }
+    end
 
     let(:repository) do
       hash = JSON.parse(GithubHooks.repository_json)
@@ -22,8 +27,8 @@ module Dockerize
     end
 
     its(:repository)   { is_expected.to eq repository }
-    its(:tmp_dir_base) { is_expected.to eq "/tmp/dockerize" }
-    its(:tmp_dir)      { is_expected.to eq "/tmp/dockerize/lister/docker-hello-world" }
+    its(:tmp_dir_base) { is_expected.to eq "/tmp/dockerize/dockerize" }
+    its(:tmp_dir)      { is_expected.to eq "/tmp/dockerize/dockerize/lister/docker-hello-world" }
       
     context "update" do
       context "missing working copy" do
