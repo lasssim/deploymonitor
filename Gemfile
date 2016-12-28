@@ -20,3 +20,4 @@ group :test do
   gem 'rspec-its'
   gem 'simplecov'
 end
+
