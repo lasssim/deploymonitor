@@ -10,7 +10,8 @@ module UseCase
     end
 
     def run
-      raise ArgumentError.new("Pusher <#{pusher.name}> not allowed") unless pusher_allowed?
+      raise ArgumentError.new("State <#{state}> not handled") unless state_handled?
+      raise ArgumentError.new("Sender <#{sender.name}> not allowed") unless sender_allowed?
       raise ArgumentError.new("Respository <#{repository.name}> not allowed") unless repository_allowed?
 
       dockerizer.image
@@ -43,18 +44,26 @@ module UseCase
       @parsed_body ||= JSON.parse(body)
     end
 
-    def pusher
-      @pusher ||= Dockerize::Pusher.new(parsed_body["pusher"])
+    def sender
+      @sender ||= Dockerize::Sender.new(parsed_body["sender"])
     end
 
-    def pusher_allowed?
-      UseCase.config.pushers.include?(pusher.name) 
+    def sender_allowed?
+      UseCase.config.senders.include?(sender.name) 
     end
 
     def repository_allowed?
       UseCase.config.repositories.include?(repository.name)
     end
 
+
+    def state
+      parsed_body["state"] 
+    end
+
+    def state_handled?
+      state == "success"
+    end
 
 
 

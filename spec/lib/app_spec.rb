@@ -8,14 +8,14 @@ describe App, :wip do
     expect(last_response).to be_ok
 	end
 
-  let(:pusher) { "lister" }
+  let(:sender) { "lister" }
   let(:full_name) { "lister/docker-hello-world" }
 
   let(:logger) { nil }
 
   let(:body) do
     GithubHooks::master_lister(
-      pusher: pusher,
+      sender: sender,
       full_name: full_name
     )
   end

@@ -1,10 +1,9 @@
 module GithubHooks
   module_function
 
-  def pusher_json
+  def sender_json
     '{
-      "name": "lister",
-      "email": "simon@lisuna.org"
+      "login": "lister"
     }'
   end
 
@@ -15,7 +14,7 @@ module GithubHooks
     }'
   end
 
-  def master_lister(pusher: "lister", full_name: "lister/docker-hello-world")
+  def master_lister(sender: "lister", full_name: "lister/docker-hello-world", state: "success")
     <<-eos
     {
       "ref": "refs/heads/master",
@@ -26,6 +25,7 @@ module GithubHooks
       "forced": false,
       "base_ref": null,
       "compare": "https://github.com/lister/stairlightsrb/compare/171b622dd365...cd696048d6bc",
+      "state": "#{state}",
       "commits": [
         {
           "id": "cd696048d6bc4f83317361c50fa87059dfef928f",
@@ -158,11 +158,11 @@ module GithubHooks
         "master_branch": "master"
       },
       "pusher": {
-        "name": "#{pusher}",
+        "name": "lister",
         "email": "simon@lisuna.org"
       },
       "sender": {
-        "login": "lister",
+        "login": "#{sender}",
         "id": 126756,
         "avatar_url": "https://avatars.githubusercontent.com/u/126756?v=3",
         "gravatar_id": "",

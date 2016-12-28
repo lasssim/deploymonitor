@@ -5,15 +5,17 @@ module UseCase
     subject do
       described_class.new(
         GithubHooks::master_lister(
-          pusher: pusher,
-          full_name: full_name
+          sender: sender,
+          full_name: full_name,
+          state: state
         ),
         logger: logger
       )
     end
     let(:logger) { nil }
-    let(:pusher) { "lister" }
+    let(:sender) { "lister" }
     let(:full_name) { "lister/docker-hello-world" }
+    let(:state) { "success" }
 
     let(:dockerizer) { subject.dockerizer }
 
@@ -33,9 +35,8 @@ module UseCase
       subject.worker.clean_up
     end
 
- 
-    context "pusher filter" do
-      context "valid pusher", :wip do
+    context "state filter" do
+      context "valid state" do
         it "doesn't raise an error" do
           expect {
             subject.run
@@ -43,8 +44,29 @@ module UseCase
         end
       end
 
-      context "invalid pusher" do
-        let(:pusher) { "wrong" }
+      context "invalid state" do
+        let(:state) { "wrong" }
+        it "raises an ArgumentError" do
+          expect {
+            subject.run
+          }.to raise_error ArgumentError
+        end
+      end
+    end
+
+
+ 
+    context "sender filter" do
+      context "valid sender" do
+        it "doesn't raise an error" do
+          expect {
+            subject.run
+          }.to_not raise_error
+        end
+      end
+
+      context "invalid sender" do
+        let(:sender) { "wrong" }
         it "raises an ArgumentError" do
           expect {
             subject.run
@@ -114,7 +136,7 @@ module UseCase
             end
             described_class.new(
               GithubHooks::master_lister(
-                pusher: pusher,
+                sender: sender,
                 full_name: full_name
               ),
               logger: logger

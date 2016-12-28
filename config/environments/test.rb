@@ -6,7 +6,7 @@ Dockerize.configure do
 end
 
 UseCase.configure do
-  pushers ["lister"]
+  senders ["lister"]
   repositories ["lister/docker-hello-world"]
   logger Logger.new(STDOUT)
 end
