@@ -1,0 +1,8 @@
+version: "2"
+services:
+  app:
+    build: .
+    volumes: 
+      - /usr/bin/qemu-arm-static:/usr/bin/qemu-arm-static
+      - /var/run/docker.sock:/var/run/docker.sock
+
