@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 
-describe App, :wip do
+describe App do
 
   it "should allow accessing the home page" do
     get '/'
@@ -76,7 +76,7 @@ describe App, :wip do
       ).to be_a Docker::Container
     end
 
-    it "updates the container", :wip do
+    it "updates the container" do
       expect {
         worker.work do 
           File.open("VERSION", 'w') { |file| file.write("1.0.0") }

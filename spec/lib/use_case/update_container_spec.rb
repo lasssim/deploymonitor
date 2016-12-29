@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 module UseCase
-  describe UpdateContainer do
+  describe UpdateContainer, :wip do
     subject do
       described_class.new(
         GithubHooks::master_lister(
@@ -129,7 +129,7 @@ module UseCase
           ).to be_a Docker::Container
         end
 
-        it "updates the container", :wip do
+        it "updates the container" do
           expect {
             subject.worker.work do 
               File.open("VERSION", 'w') { |file| file.write("1.0.0") }
