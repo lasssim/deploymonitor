@@ -50,6 +50,17 @@ docker run -v $HOME/.netrc:/root/.netrc -v /var/run/docker.sock:/var/run/docker.
 
 ### Production
 
+On your raspberry pi add this file: `/etc/systemd/system/deploymonitor.service`
 ```bash
-docker run lister/deploy-monitor -v /var/run/docker.sock:/var/run/docker.sock
+[Unit]
+Description=deploymonitor container
+Requires=docker.service
+After=docker.service
+
+[Service]
+Restart=always
+ExecStart=/usr/bin/docker run -v <path_to_netrc_file>:/root/.netrc -v /var/run/docker.sock:/var/run/docker.sock  lister/deploymonitor
+
+[Install]
+WantedBy=default.target
 ```
