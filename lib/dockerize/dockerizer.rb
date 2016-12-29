@@ -1,13 +1,14 @@
 module Dockerize
   
   class Dockerizer
-    attr_reader :worker, :docker_url, :keep_nr_images, :tags
-    def initialize(worker:, docker_url: Dockerize.config.docker_url, logger: Dockerize.config.logger, keep_nr_images: Dockerize.config.keep_nr_images)
+    attr_reader :worker, :docker_url, :keep_nr_images, :tags, :docker_opts
+    def initialize(worker:, docker_url: Dockerize.config.docker_url, logger: Dockerize.config.logger, keep_nr_images: Dockerize.config.keep_nr_images, docker_opts: {})
       @worker = worker
       @logger     = logger
       @docker_url = docker_url
       @keep_nr_images = keep_nr_images
       @tags           = [version_from_repository]
+      @docker_opts    = Hash(docker_opts)
     end
 
     def image
@@ -129,10 +130,11 @@ module Dockerize
     end
 
     def create_container
-      Docker::Container.create(
+      hash = {
         "Image" => tag_string("latest"),
         "name"  => container_name
-      )
+      }.merge(docker_opts)
+      Docker::Container.create(hash)
     end
 
     def tag_string(tag)

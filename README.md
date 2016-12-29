@@ -59,7 +59,7 @@ After=docker.service
 
 [Service]
 Restart=always
-ExecStart=/usr/bin/docker run -v <path_to_netrc_file>:/root/.netrc -v /var/run/docker.sock:/var/run/docker.sock  lister/deploymonitor
+ExecStart=/usr/bin/docker run -v <path_to_netrc_file>:/root/.netrc -v /var/run/docker.sock:/var/run/docker.sock -v <path_to_repositories.yml>:/usr/src/app/config/repositories.yml lister/deploymonitor
 
 [Install]
 WantedBy=default.target

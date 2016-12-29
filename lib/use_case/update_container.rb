@@ -11,8 +11,8 @@ module UseCase
 
     def run
       raise ArgumentError.new("State <#{state}> not handled") unless state_handled?
-      raise ArgumentError.new("Sender <#{sender.name}> not allowed") unless sender_allowed?
       raise ArgumentError.new("Respository <#{repository.name}> not allowed") unless repository_allowed?
+      raise ArgumentError.new("Sender <#{sender.name}> not allowed") unless sender_allowed?
 
       dockerizer.image
       dockerizer.remove
@@ -27,7 +27,8 @@ module UseCase
     def dockerizer
       @dockerizer ||= Dockerize::Dockerizer.new(
         worker: worker,
-        logger: logger
+        logger: logger,
+        docker_opts: repository_config["docker_opts"]
       )
     end
 
@@ -49,11 +50,11 @@ module UseCase
     end
 
     def sender_allowed?
-      UseCase.config.senders.include?(sender.name) 
+      repository_config["allowed_senders"].include?(sender.name) 
     end
 
     def repository_allowed?
-      UseCase.config.repositories.include?(repository.name)
+      repository_config != nil
     end
 
 
@@ -65,7 +66,11 @@ module UseCase
       state == "success"
     end
 
-
+    def repository_config
+      @repository_config ||= UseCase.config.repositories.find do |repo_config|
+        repo_config["name"] == parsed_body["repository"]["full_name"]
+      end
+    end
 
   end
 
