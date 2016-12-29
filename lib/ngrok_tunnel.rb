@@ -19,6 +19,7 @@ module NgrokTunnel
   end
 
   def setup
+    raise ArgumentError.new("config.app_port can not be nil") unless config.app_port
     Ngrok::Tunnel.start(port: config.app_port)
     log "+-------------------"
     log "| #{Ngrok::Tunnel.ngrok_url}"
@@ -26,6 +27,7 @@ module NgrokTunnel
 
 
     repositories.each do |name, github_hook_id|
+      raise ArgumentError.new("github_hook_id for #{name} not set") unless github_hook_id
       github_client.edit_hook(
         name, 
         github_hook_id,

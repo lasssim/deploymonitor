@@ -1,0 +1,26 @@
+defaults: &defaults
+  app_port: 8080
+  keep_nr_images: 4
+  docker_url: "unix:///var/run/docker.sock"
+
+production:
+  <<: *defaults
+
+development:
+  repositories:
+    - name: "lister/docker-hello-world"
+      github_hook_id: 11325330
+      allowed_senders: 
+        - lister
+      docker_opts:
+  <<: *defaults
+
+test: 
+  repositories:
+    - name: "lister/docker-hello-world"
+      allowed_senders: 
+        - lister
+      docker_opts:
+
+  <<: *defaults
+
